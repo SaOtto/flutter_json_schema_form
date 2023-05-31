@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:json_schema2/json_schema2.dart';
 import 'package:json_schema_form/src/controller.dart';
 import 'package:json_schema_form/src/model.dart';
@@ -173,6 +172,18 @@ class JsonSchemaTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: schema.schema.format != null && schema.schema.format == 'date-time'
+          ? () async {
+              FocusScope.of(context).requestFocus(FocusNode());
+              var date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate:
+                      DateTime.now().subtract(const Duration(days: 35600)),
+                  lastDate: DateTime.now().add(const Duration(days: 35600)));
+              controller?.text = date?.toIso8601String().split('T').first ?? '';
+            }
+          : () {},
       keyboardType: schema.schema.type == SchemaType.number ||
               schema.schema.type == SchemaType.integer
           ? (schema.schema.type == SchemaType.number
@@ -193,13 +204,15 @@ class JsonSchemaTextFormField extends StatelessWidget {
             } else {
               toValidate = value;
             }
-            if (schema.schema.validate(toValidate)) {
+            if (schema.schema
+                .validate(toValidate, reportMultipleErrors: true)) {
               return null;
             } else {
-              return 'Wert entspricht nicht den Vorgaben';
+              var errors = schema.schema.validateWithErrors(toValidate);
+              return 'Wert entspricht nicht den Vorgaben: ${errors.join(',')}';
             }
           } catch (e) {
-            return 'Wert entspricht nicht den Vorgaben';
+            return 'Wert entspricht nicht den Vorgaben - Exception: $e';
           }
         }
       },

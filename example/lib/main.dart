@@ -10,6 +10,7 @@ var schema = JsonSchema.createSchema({
     "firstName": {"type": "string", "description": "The person's first name."},
     "lastName": {"type": "string", "description": "The person's last name."},
     'testConstValue': {'type': 'string', 'const': 'Test'},
+    'birthDate': {'type': 'string', 'format': 'date-time'},
     "age": {
       "description":
           "Age in years which must be equal to or greater than zero.",
