@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:json_schema2/json_schema2.dart';
+import 'package:json_schema2/json_schema.dart';
 
 class SchemaFormController {
   late Map<String, TextEditingController> controllers;

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:json_schema2/json_schema2.dart';
+import 'package:json_schema2/json_schema.dart';
 import 'package:json_schema_form/src/controller.dart';
 import 'package:json_schema_form/src/model.dart';
 
@@ -204,12 +204,11 @@ class JsonSchemaTextFormField extends StatelessWidget {
             } else {
               toValidate = value;
             }
-            if (schema.schema
-                .validate(toValidate, reportMultipleErrors: true)) {
+            if (schema.schema.validate(toValidate).isValid) {
               return null;
             } else {
-              var errors = schema.schema.validateWithErrors(toValidate);
-              return 'Wert entspricht nicht den Vorgaben: ${errors.join(',')}';
+              var errors = schema.schema.validate(toValidate);
+              return 'Wert entspricht nicht den Vorgaben: ${errors.errors.join(',')}';
             }
           } catch (e) {
             return 'Wert entspricht nicht den Vorgaben - Exception: $e';

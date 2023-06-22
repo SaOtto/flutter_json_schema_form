@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  json_schema2: ^2.0.2+18
+  json_schema2: ^5.1.2+2
   json_schema_form:
     path: ..
 

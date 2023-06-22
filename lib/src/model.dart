@@ -1,4 +1,4 @@
-import 'package:json_schema2/json_schema2.dart';
+import 'package:json_schema2/json_schema.dart';
 
 class JsonSchemaPropertyEntry {
   JsonSchema schema;

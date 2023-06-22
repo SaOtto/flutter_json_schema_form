@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:json_schema2/json_schema2.dart';
+import 'package:json_schema2/json_schema.dart';
 import 'package:json_schema_form/json_schema_form.dart';
 
-var schema = JsonSchema.createSchema({
+var schema = JsonSchema.create({
   "\$id": "https://example.com/person.schema.json",
   "title": "Person",
   "type": "object",
