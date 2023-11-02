@@ -192,26 +192,28 @@ class JsonSchemaTextFormField extends StatelessWidget {
               : const TextInputType.numberWithOptions(signed: true))
           : null,
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Bitte Wert eintragen';
-        } else {
-          try {
-            dynamic toValidate;
-            if (schema.schema.type == SchemaType.number) {
-              toValidate = double.parse(value);
-            } else if (schema.schema.type == SchemaType.integer) {
-              toValidate = int.parse(value);
-            } else {
-              toValidate = value;
+        if (schema.schema.requiredOnParent) {
+          if (value == null || value.isEmpty) {
+            return 'Bitte Wert eintragen';
+          } else {
+            try {
+              dynamic toValidate;
+              if (schema.schema.type == SchemaType.number) {
+                toValidate = double.parse(value);
+              } else if (schema.schema.type == SchemaType.integer) {
+                toValidate = int.parse(value);
+              } else {
+                toValidate = value;
+              }
+              if (schema.schema.validate(toValidate).isValid) {
+                return null;
+              } else {
+                var errors = schema.schema.validate(toValidate);
+                return 'Wert entspricht nicht den Vorgaben: ${errors.errors.join(',')}';
+              }
+            } catch (e) {
+              return 'Wert entspricht nicht den Vorgaben - Exception: $e';
             }
-            if (schema.schema.validate(toValidate).isValid) {
-              return null;
-            } else {
-              var errors = schema.schema.validate(toValidate);
-              return 'Wert entspricht nicht den Vorgaben: ${errors.errors.join(',')}';
-            }
-          } catch (e) {
-            return 'Wert entspricht nicht den Vorgaben - Exception: $e';
           }
         }
       },
