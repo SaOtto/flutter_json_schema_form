@@ -123,9 +123,15 @@ class JsonSchemaFormState extends State<JsonSchemaForm> {
     } else if (schema.type == SchemaType.string) {
       return widget.controller.controllers[schema.path]!.text;
     } else if (schema.type == SchemaType.integer) {
-      return int.parse(widget.controller.controllers[schema.path!]!.text);
+      var value = widget.controller.controllers[schema.path!]!.text;
+      if (value.isNotEmpty) {
+        return int.parse(value);
+      }
     } else if (schema.type == SchemaType.number) {
-      return double.parse(widget.controller.controllers[schema.path!]!.text);
+      var value = widget.controller.controllers[schema.path!]!.text;
+      if (value.isNotEmpty) {
+        return double.parse(value);
+      }
     } else if (schema.type == SchemaType.boolean) {
       return widget.controller.checkValues[schema.path];
     } else if (schema.type == SchemaType.object) {
